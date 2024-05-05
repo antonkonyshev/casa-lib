@@ -35,10 +35,13 @@ void cleanWiFiCredentials();
 void openPreferencesStorage();
 void closePreferencesStorage();
 void savePreference(const char* key, const char* value);
+void savePreference(const char* key, int8_t value);
+void savePreference(const char* key, uint16_t value);
 const char* loadPreference(const char* key);
+void loadPreference(const char* key, int8_t* value, int8_t defaultValue);
+void loadPreference(const char* key, uint16_t* value, uint16_t defaultValue);
 #endif
 #ifdef ESP8266_DEVICE
 void savePreference(preferences_s* prefs);
 void loadPreference(preferences_s* prefs);
-void saveWifiCredentials(const char* ssid, const char* password);
 #endif

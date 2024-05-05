@@ -98,6 +98,18 @@ void savePreference(const char* key, const char* value) {
     }
 }
 
+void savePreference(const char* key, int8_t value) {
+    if (value != NULL) {
+        nvs_set_i8(storage, key, value);
+    }
+}
+
+void savePreference(const char* key, uint16_t value) {
+    if (value != NULL) {
+        nvs_set_u16(storage, key, value);
+    }
+}
+
 const char* loadPreference(const char* key) {
     size_t value_size;
     nvs_get_str(storage, key, NULL, &value_size);
@@ -107,6 +119,16 @@ const char* loadPreference(const char* key) {
         return buffer;
     }
     return nullptr;
+}
+
+void loadPreference(const char* key, int8_t* value, int8_t defaultValue) {
+    *value = defaultValue;
+    nvs_get_i8(storage, key, value);
+}
+
+void loadPreference(const char* key, uint16_t* value, uint16_t defaultValue) {
+    *value = defaultValue;
+    nvs_get_u16(storage, key, value);
 }
 #endif
 
@@ -123,6 +145,10 @@ void savePreference(preferences_s* prefs) {
         Serial.println("Preferences weren't dumped to a file.");
     }
     fStorage.close();
+
+    if (prefs->wifi_ssid) {
+        saveWifiCredentials(prefs->wifi_ssid, prefs->wifi_password);
+    }
 }
 
 void loadPreference(preferences_s* prefs) {
