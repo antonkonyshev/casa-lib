@@ -26,6 +26,15 @@ typedef struct wifi_credentials_s {
     wifi_credentials_s() : ssid(nullptr), password(nullptr), next(nullptr) {}
 } wifi_credentials_t;
 
+typedef struct base_preferences_s {
+    uint16_t journal_length;
+    const char* wifi_ssid;
+    const char* wifi_password;
+
+    base_preferences_s(): journal_length(0),
+        wifi_ssid(nullptr), wifi_password(nullptr) {}
+} base_preferences_t;
+
 struct preferences_s;
 
 wifi_credentials_t* loadWiFiCredentials();
