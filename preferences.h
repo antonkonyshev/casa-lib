@@ -5,8 +5,6 @@
 #include <nvs_flash.h>
 
 #define PREFERENCES_STORAGE_NAME "storage"
-#define NVS_WIFI_SSID_CREDENTIALS_KEY "wifi_ssid"
-#define NVS_WIFI_PASSWORD_CREDENTIALS_KEY "wifi_password"
 
 #endif
 #ifdef ESP8266_DEVICE
@@ -17,6 +15,9 @@
 #define CREDENTIALS_STORAGE_FILE "wifi_credentials.bin"
 
 #endif
+
+#define NVS_WIFI_SSID_CREDENTIALS_KEY "wifi_ssid"
+#define NVS_WIFI_PASSWORD_CREDENTIALS_KEY "wifi_password"
 
 typedef struct wifi_credentials_s {
     const char* ssid;
