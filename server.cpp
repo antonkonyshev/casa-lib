@@ -39,6 +39,8 @@ void handleSettingsReadRequest(AsyncWebServerRequest* request) {
 
 void handleServiceInfoRequest(AsyncWebServerRequest* request) {
     digitalWrite(LED_BUILTIN, HIGH);
-    request->send(200, "application/json", getServiceInfoResponsePayload());
+    char buffer[512];
+    serviceInfoResponsePayload(buffer);
+    request->send(200, "application/json", buffer);
     digitalWrite(LED_BUILTIN, LOW);
 }

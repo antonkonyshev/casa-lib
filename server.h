@@ -6,7 +6,7 @@
 
 void serializeSettings(char* buffer);
 void saveSettings(AsyncWebServerRequest* request);
-const char* getServiceInfoResponsePayload();
+void serviceInfoResponsePayload(char* buffer);
 
 void handleServiceInfoRequest(AsyncWebServerRequest* request);
 void handleSettingsReadRequest(AsyncWebServerRequest* request);
