@@ -44,4 +44,5 @@ void loadPreference(const char* key, uint16_t* value, uint16_t defaultValue);
 #ifdef ESP8266_DEVICE
 void savePreference(preferences_s* prefs);
 void loadPreference(preferences_s* prefs);
+void saveWifiCredentials(const char* ssid, const char* password);
 #endif

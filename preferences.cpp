@@ -99,22 +99,18 @@ void savePreference(const char* key, const char* value) {
 }
 
 void savePreference(const char* key, int8_t value) {
-    if (value != NULL) {
-        nvs_set_i8(storage, key, value);
-    }
+    nvs_set_i8(storage, key, value);
 }
 
 void savePreference(const char* key, uint16_t value) {
-    if (value != NULL) {
-        nvs_set_u16(storage, key, value);
-    }
+    nvs_set_u16(storage, key, value);
 }
 
 const char* loadPreference(const char* key) {
     size_t value_size;
     nvs_get_str(storage, key, NULL, &value_size);
     if (value_size && value_size < 512) {
-        char buffer[value_size] = {0};
+        char* buffer = new char[value_size]();
         nvs_get_str(storage, key, buffer, &value_size);
         return buffer;
     }
@@ -133,38 +129,6 @@ void loadPreference(const char* key, uint16_t* value, uint16_t defaultValue) {
 #endif
 
 #ifdef ESP8266_DEVICE
-void savePreference(preferences_s* prefs) {
-    File fStorage = LittleFS.open(PREFERENCES_STORAGE_FILE, "wb");
-    if (!fStorage) {
-        Serial.println("Cannot open preferences file for writting.");
-        return;
-    }
-
-    int writtenBytes = fStorage.write((byte*) &prefs, sizeof(prefs));
-    if (writtenBytes == 0) {
-        Serial.println("Preferences weren't dumped to a file.");
-    }
-    fStorage.close();
-
-    if (prefs->wifi_ssid) {
-        saveWifiCredentials(prefs->wifi_ssid, prefs->wifi_password);
-    }
-}
-
-void loadPreference(preferences_s* prefs) {
-    File fStorage = LittleFS.open(PREFERENCES_STORAGE_FILE, "rb");
-    if (!fStorage) {
-        Serial.println("Preferences file is not available for reading.");
-        return;
-    }
-
-    int redBytes = fStorage.read((byte *) &prefs, sizeof(prefs));
-    if (redBytes == 0) {
-        Serial.println("Preferences weren't loaded from a file.");
-    }
-    fStorage.close();
-}
-
 void saveWifiCredentials(const char* ssid, const char* password) {
     File fStorage = LittleFS.open(CREDENTIALS_STORAGE_FILE, "wb");
     if (!fStorage) {
@@ -179,6 +143,34 @@ void saveWifiCredentials(const char* ssid, const char* password) {
     int writtenBytes = fStorage.write((byte*) &creds, sizeof(creds));
     if (writtenBytes == 0) {
         Serial.println("Credentials weren't dumped to a file.");
+    }
+    fStorage.close();
+}
+
+void savePreference(preferences_s* prefs) {
+    File fStorage = LittleFS.open(PREFERENCES_STORAGE_FILE, "wb");
+    if (!fStorage) {
+        Serial.println("Cannot open preferences file for writting.");
+        return;
+    }
+
+    int writtenBytes = fStorage.write((byte*) &prefs, sizeof(prefs));
+    if (writtenBytes == 0) {
+        Serial.println("Preferences weren't dumped to a file.");
+    }
+    fStorage.close();
+}
+
+void loadPreference(preferences_s* prefs) {
+    File fStorage = LittleFS.open(PREFERENCES_STORAGE_FILE, "rb");
+    if (!fStorage) {
+        Serial.println("Preferences file is not available for reading.");
+        return;
+    }
+
+    int redBytes = fStorage.read((byte *) &prefs, sizeof(prefs));
+    if (redBytes == 0) {
+        Serial.println("Preferences weren't loaded from a file.");
     }
     fStorage.close();
 }
