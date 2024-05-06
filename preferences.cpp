@@ -5,21 +5,18 @@ wifi_credentials_t* credentials;
 nvs_handle_t storage;
 #endif
 
-void addToCredentials(const char* ssid, const char* password) {
-    wifi_credentials_t* additional = new wifi_credentials_t;
-    additional->ssid = ssid;
-    additional->password = password;
-    if (credentials) {
-        additional->next = credentials;
-    }
-    credentials = additional;
-}
-
 void addToCredentials(wifi_credentials_t* creds) {
     if (credentials) {
         creds->next = credentials;
     }
     credentials = creds;
+}
+
+void addToCredentials(const char* ssid, const char* password) {
+    wifi_credentials_t* additional = new wifi_credentials_t;
+    additional->ssid = ssid;
+    additional->password = password;
+    addToCredentials(additional);
 }
 
 wifi_credentials_t* loadWiFiCredentials() {
