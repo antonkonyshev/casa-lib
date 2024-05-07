@@ -33,7 +33,7 @@ void handleSettingsReadRequest(AsyncWebServerRequest* request) {
     digitalWrite(LED_BUILTIN, HIGH);
     char payload[512] = {0};
     serializeSettings(payload);
-    request->send(200, "application/json", (const char*) payload);
+    request->send(200, "application/json", payload);
     digitalWrite(LED_BUILTIN, LOW);
 }
 

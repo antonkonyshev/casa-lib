@@ -158,11 +158,11 @@ void savePreference(preferences_s* prefs) {
     fStorage.close();
 }
 
-void loadPreference(preferences_s* prefs) {
+bool loadPreference(preferences_s* prefs) {
     File fStorage = LittleFS.open(PREFERENCES_STORAGE_FILE, "rb");
     if (!fStorage) {
         Serial.println("Preferences file is not available for reading.");
-        return;
+        return false;
     }
 
     int redBytes = fStorage.read((byte *) &prefs, sizeof(prefs));
@@ -170,5 +170,6 @@ void loadPreference(preferences_s* prefs) {
         Serial.println("Preferences weren't loaded from a file.");
     }
     fStorage.close();
+    return bool(redBytes);
 }
 #endif
